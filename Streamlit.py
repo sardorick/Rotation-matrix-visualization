@@ -28,10 +28,14 @@ fig = px.scatter(df.loc[(df['Gender'] == 'Female')],  x='Weight', y='Height', ti
 st.plotly_chart(fig, use_column_width = True)
 
 # Males height
+
 for_hist  = df.loc[(df['Gender'] == 'Male')]
 heightss = for_hist.iloc[:, 1]
 df_heights = heightss.to_frame()
-st.line_chart(df_heights)
+fig, ax = plt.subplots()
+ax.hist(df_heights, bins=20)
+
+st.pyplot(fig)
 
 fig = px.scatter(df['Weight'], df['Height'])
 # fig = px.scatter(df['Weight'].mean(), df['Height'].mean())
