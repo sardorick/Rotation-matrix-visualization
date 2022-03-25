@@ -10,6 +10,7 @@ df = pd.read_csv("https://raw.githubusercontent.com/chriswmann/datasets/master/5
 st.title("BMI Visualization")
 st.dataframe(df)
 data_select = st.sidebar.selectbox("Select your Scatter Plot", ("BMI", "BMI For males", "BMI For females"))
+hist_select = st.sidebar.selectbox("Choose which histogram you want", ("Male height", "Male weight", "Female height", "Female weight"))
 menu = ["Original Vector", "Transformed Vector"]
 rotation = st.sidebar.radio("Matrix", menu)
 k = st.sidebar.slider("Choose your Rotation", 30, 100, 1)
@@ -52,46 +53,55 @@ def load_data(data_select):
     
 load_data(data_select)
 
-# Males height
-st.title('Histogram of males height')
-for_hist  = df.loc[(df['Gender'] == 'Male')]
-heightss = for_hist.iloc[:, 1]
-df_heights = heightss.to_frame()
-fig, ax = plt.subplots()
-ax.hist(df_heights, bins=20)
+def load_hist(hist_select):
 
-st.pyplot(fig)
+    # Males height
+    if hist_select == "Male height":
+        st.title('Histogram of males height')
+        for_hist  = df.loc[(df['Gender'] == 'Male')]
+        heightss = for_hist.iloc[:, 1]
+        df_heights = heightss.to_frame()
+        fig, ax = plt.subplots()
+        ax.hist(df_heights, bins=20)
+
+        st.pyplot(fig)
 
 
-# Males weight
-st.title('Histogram of males weight')
-for_hist  = df.loc[(df['Gender'] == 'Male')]
-weightss = for_hist.iloc[:, 2]
-df_weights = weightss.to_frame()
-fig, ax = plt.subplots()
-ax.hist(df_weights, bins=20)
+    # Males weight
+    elif hist_select == "Male weight":
+        st.title('Histogram of males weight')
+        for_hist  = df.loc[(df['Gender'] == 'Male')]
+        weightss = for_hist.iloc[:, 2]
+        df_weights = weightss.to_frame()
+        fig, ax = plt.subplots()
+        ax.hist(df_weights, bins=20)
 
-st.pyplot(fig)
+        st.pyplot(fig)
 
-# Female height
-st.title('Histogram of female height')
-for_hist  = df.loc[(df['Gender'] == 'Female')]
-heightss = for_hist.iloc[:, 1]
-df_heights = heightss.to_frame()
-fig, ax = plt.subplots()
-ax.hist(df_heights, bins=20)
+    # Female height
+    elif hist_select == "Female height":
+        st.title('Histogram of female height')
+        for_hist  = df.loc[(df['Gender'] == 'Female')]
+        heightss = for_hist.iloc[:, 1]
+        df_heights = heightss.to_frame()
+        fig, ax = plt.subplots()
+        ax.hist(df_heights, bins=20)
 
-st.pyplot(fig)
+        st.pyplot(fig)
 
-# Female weight
-fig, ax = plt.subplots(figsize=(8,8))
-st.title('Histogram of females weight')
-for_hist  = df.loc[(df['Gender'] == 'Female')]
-weightss = for_hist.iloc[:, 2]
-df_weights = weightss.to_frame()
-fig, ax = plt.subplots()
-ax.hist(df_weights, bins=20)
-st.pyplot(fig)
+    # Female weight
+    elif hist_select == "Female weight":
+        fig, ax = plt.subplots(figsize=(8,8))
+        st.title('Histogram of females weight')
+        for_hist  = df.loc[(df['Gender'] == 'Female')]
+        weightss = for_hist.iloc[:, 2]
+        df_weights = weightss.to_frame()
+        fig, ax = plt.subplots()
+        ax.hist(df_weights, bins=20)
+        st.pyplot(fig)
+
+load_hist(hist_select)
+
 
 # Plot mean of Weight and heigh
 mean_vector = [df.Weight.mean(), df.Height.mean()]
