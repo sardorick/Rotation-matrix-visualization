@@ -9,23 +9,48 @@ df = pd.read_csv("https://raw.githubusercontent.com/chriswmann/datasets/master/5
 
 st.title("BMI Visualization")
 st.dataframe(df)
+data_select = st.sidebar.selectbox("Select your Scatter Plot", ("BMI", "BMI For males", "BMI For females"))
+menu = ["Original Vector", "Transformed Vector"]
+rotation = st.sidebar.radio("Matrix", menu)
+k = st.sidebar.slider("Choose your Rotation", 30, 100, 1)
+
+
+
+
+def load_data(data_select):
 # General scatter plot
-fig = px.scatter( df,  x='Weight', y='Height', title='BMI', color='Index')
+       if data_select == "BMI":
+           st.title("BMI")
+           fig = px.scatter( df,  x='Weight', y='Height', title='BMI', color='Index')
                                 
 
-st.plotly_chart(fig, use_column_width = True)
+           st.plotly_chart(fig, use_column_width = True)
+
 
 # Male BMI scatterplot
-males = df.loc[(df['Gender'] == 'Male')]
-colorz = males.iloc[:, 3]
-fig = px.scatter(df.loc[(df['Gender'] == 'Male')],  x='Weight', y='Height', title='BMI For males', color=colorz)
-st.plotly_chart(fig, use_column_width = True)
+
+       elif data_select == "BMI For males":
+            st.title("BMI For males")
+            males = df.loc[(df['Gender'] == 'Male')]
+            colorz = males.iloc[:, 3]
+            fig = px.scatter(df.loc[(df['Gender'] == 'Male')],  x='Weight', y='Height', title='BMI For males', color=colorz)
+            st.plotly_chart(fig, use_column_width = True)
 
 #Female BMI scatter plot
-males = df.loc[(df['Gender'] == 'Female')]
-colorz = males.iloc[:, 3]
-fig = px.scatter(df.loc[(df['Gender'] == 'Female')],  x='Weight', y='Height', title='BMI For females', color=colorz)
-st.plotly_chart(fig, use_column_width = True)
+
+       elif data_select == "BMI For Female":
+            st.title("BMI For Female")
+            males = df.loc[(df['Gender'] == 'Female')]
+            colorz = males.iloc[:, 3]
+            fig = px.scatter(df.loc[(df['Gender'] == 'Female')],  x='Weight', y='Height', title='BMI For females', color=colorz)
+            st.plotly_chart(fig, use_column_width = True)
+
+
+       else:
+           print("no")
+
+    
+load_data(data_select)
 
 # Males height
 
