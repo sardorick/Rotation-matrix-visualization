@@ -16,14 +16,14 @@ hist_select = st.sidebar.selectbox("Choose which histogram you want", ("Male hei
 rotation = st.sidebar.checkbox("Original Vector")
 
 
-if rotation == "Original Vector":
-    st.title("Original Vector") 
-    y, x = np.indices((5, 4))
-    y = y.flatten()
-    x = x.flatten()
-    xy = np.row_stack((x, y))
-    fig = px.scatter(xy, x='X axis', y='Y axis', title="Original Vector")
-    st.plotly_chart(fig, use_column_width = True)
+# if rotation == "Original Vector":
+#     st.title("Original Vector") 
+#     y, x = np.indices((5, 4))
+#     y = y.flatten()
+#     x = x.flatten()
+#     xy = np.row_stack((x, y))
+#     fig = px.scatter(xy, x='X axis', y='Y axis', title="Original Vector")
+#     st.plotly_chart(fig, use_column_width = True)
 
 rotation1 = st.sidebar.checkbox("Transformed Vector")
 deg = st.sidebar.slider("Choose your Rotation", 30, 100, 1)    
@@ -36,10 +36,10 @@ def rot_mat(deg):
         sin = np.sin(theta)
     return np.array([[cos, -sin], [sin, cos]])
 
-r = rot_mat(deg)
-rxy = r@xy
-fig = px.scatter(rxy, x='X axis', y='Y axis', title="Transformed Vector")
-st.plotly_chart(fig, use_column_width = True)
+# r = rot_mat(deg)
+# rxy = r@xy
+# fig = px.scatter(rxy, x='X axis', y='Y axis', title="Transformed Vector")
+# st.plotly_chart(fig, use_column_width = True)
 
     
 
@@ -66,10 +66,10 @@ def load_data(data_select):
 
        elif data_select == "BMI For Female":
             st.title("BMI For Female")
-            males = df.loc[(df['Gender'] == 'Female')]
-            colorz = males.iloc[:, 3]
-            fig = px.scatter(df.loc[(df['Gender'] == 'Female')],  x='Weight', y='Height', title='BMI For females', color=colorz)
-            st.plotly_chart(fig, use_column_width = True)
+            females = df.loc[(df['Gender'] == 'Female')]
+            colorz = females.iloc[:, 3]
+            fig1 = px.scatter(df.loc[(df['Gender'] == 'Female')],  x='Weight', y='Height', title='BMI For females', color=colorz)
+            st.plotly_chart(fig1, use_column_width = True)
 
 
        else:
@@ -150,3 +150,5 @@ if agree1:
         fig = px.scatter(df2,  x='Weight', y='Height', title='Mean per BMI', color=('Extremely weak mean', 'Weak', 'Normal', 'Overweight', 'Obesity', 'Extreme Obesity'))
         fig.update_traces(marker=dict(size=16))
         st.plotly_chart(fig, use_column_width = True)
+
+
