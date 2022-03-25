@@ -11,13 +11,9 @@ st.title("BMI Visualization")
 st.dataframe(df)
 data_select = st.sidebar.selectbox("Select your Scatter Plot", ("BMI", "BMI For males", "BMI For females"))
 hist_select = st.sidebar.selectbox("Choose which histogram you want", ("Male height", "Male weight", "Female height", "Female weight"))
-menu = ["Original Vector", "Transformed Vector"]
-rotation = st.sidebar.radio("Matrix", menu)
-k = st.sidebar.slider("Choose your Rotation", 30, 100, 1)
-menu = ["Original Vector"]
-rotation = st.sidebar.checkbox(menu)
-rotation1 = st.sidebar.checkbox("Transformed Vector")
-deg = st.sidebar.slider("Choose your Rotation", 30, 100, 1)
+
+
+rotation = st.sidebar.checkbox("Original Vector")
 
 
 if rotation == "Original Vector":
@@ -29,15 +25,16 @@ if rotation == "Original Vector":
     fig = px.scatter(xy, x='X axis', y='Y axis', title="Original Vector")
     st.plotly_chart(fig, use_column_width = True)
 
-    
+rotation1 = st.sidebar.checkbox("Transformed Vector")
+deg = st.sidebar.slider("Choose your Rotation", 30, 100, 1)    
 
 def rot_mat(deg):
     if rotation1 == "Transformed Vector":
         st.title("Transformed Vector")
         theta = deg/180*np.pi
-        c = np.cos(theta)
-        s = np.sin(theta)
-    return np.array([[c, -s], [s, c]])
+        cos = np.cos(theta)
+        sin = np.sin(theta)
+    return np.array([[cos, -sin], [sin, cos]])
 
 r = rot_mat(deg)
 rxy = r@xy
@@ -45,9 +42,6 @@ fig = px.scatter(rxy, x='X axis', y='Y axis', title="Transformed Vector")
 st.plotly_chart(fig, use_column_width = True)
 
     
-
-
-
 
 def load_data(data_select):
 # General scatter plot
@@ -130,6 +124,9 @@ def load_hist(hist_select):
         fig, ax = plt.subplots()
         ax.hist(df_weights, bins=20)
         st.pyplot(fig)
+
+    else:
+        print("no")
 
 load_hist(hist_select)
 
