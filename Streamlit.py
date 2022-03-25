@@ -132,18 +132,21 @@ load_hist(hist_select)
 
 
 # Plot mean of Weight and heigh
-mean_vector = [df.Weight.mean(), df.Height.mean()]
-fig1 = px.scatter(df['Weight'], df['Height'])
-# mean_height = df['Weight'].mean()
-# mean_weight = df['Height'].mean()
-fig = px.scatter(mean_vector)
-st.plotly_chart(fig1, use_column_width=True)
+agree = st.sidebar.checkbox('Mean')
+if agree:
+    mean_vector = [df.Weight.mean(), df.Height.mean()]
+    fig1 = px.scatter(df['Weight'], df['Height'])
+    # mean_height = df['Weight'].mean()
+    # mean_weight = df['Height'].mean()
+    fig = px.scatter(mean_vector)
+    st.plotly_chart(fig1, use_column_width=True)
 
 ## this needs rework
 
-
+agree1 = st.sidebar.checkbox('Mean per BMI')
+if agree1:
 ### Mean per BMI
-df2 = df.groupby('Index').mean()
-fig = px.scatter(df2,  x='Weight', y='Height', title='Mean per BMI', color=('Extremely weak mean', 'Weak', 'Normal', 'Overweight', 'Obesity', 'Extreme Obesity'))
-fig.update_traces(marker=dict(size=16))
-st.plotly_chart(fig, use_column_width = True)
+        df2 = df.groupby('Index').mean()
+        fig = px.scatter(df2,  x='Weight', y='Height', title='Mean per BMI', color=('Extremely weak mean', 'Weak', 'Normal', 'Overweight', 'Obesity', 'Extreme Obesity'))
+        fig.update_traces(marker=dict(size=16))
+        st.plotly_chart(fig, use_column_width = True)
