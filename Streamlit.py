@@ -10,9 +10,37 @@ df = pd.read_csv("https://raw.githubusercontent.com/chriswmann/datasets/master/5
 st.title("BMI Visualization")
 st.dataframe(df)
 data_select = st.sidebar.selectbox("Select your Scatter Plot", ("BMI", "BMI For males", "BMI For females"))
-menu = ["Original Vector", "Transformed Vector"]
-rotation = st.sidebar.radio("Matrix", menu)
-k = st.sidebar.slider("Choose your Rotation", 30, 100, 1)
+menu = ["Original Vector"]
+rotation = st.sidebar.checkbox(menu)
+rotation1 = st.sidebar.checkbox("Transformed Vector")
+deg = st.sidebar.slider("Choose your Rotation", 30, 100, 1)
+
+
+if rotation == "Original Vector":
+    st.title("Original Vector") 
+    y, x = np.indices((5, 4))
+    y = y.flatten()
+    x = x.flatten()
+    xy = np.row_stack((x, y))
+    fig = px.scatter(xy, x='X axis', y='Y axis', title="Original Vector")
+    st.plotly_chart(fig, use_column_width = True)
+
+    
+
+def rot_mat(deg):
+    if rotation1 == "Transformed Vector":
+        st.title("Transformed Vector")
+        theta = deg/180*np.pi
+        c = np.cos(theta)
+        s = np.sin(theta)
+    return np.array([[c, -s], [s, c]])
+
+r = rot_mat(deg)
+rxy = r@xy
+fig = px.scatter(rxy, x='X axis', y='Y axis', title="Transformed Vector")
+st.plotly_chart(fig, use_column_width = True)
+
+    
 
 
 
