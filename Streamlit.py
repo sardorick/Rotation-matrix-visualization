@@ -59,6 +59,7 @@ ax.hist(df_heights, bins=20)
 st.pyplot(fig)
 
 # Female weight
+fig, ax = plt.subplots(figsize=(8,8))
 st.title('Histogram of females weight')
 for_hist  = df.loc[(df['Gender'] == 'Female')]
 weightss = for_hist.iloc[:, 2]
