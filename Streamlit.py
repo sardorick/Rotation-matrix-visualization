@@ -28,7 +28,7 @@ fig = px.scatter(df.loc[(df['Gender'] == 'Female')],  x='Weight', y='Height', ti
 st.plotly_chart(fig, use_column_width = True)
 
 # Males height
-
+st.title('Histogram of males height')
 for_hist  = df.loc[(df['Gender'] == 'Male')]
 heightss = for_hist.iloc[:, 1]
 df_heights = heightss.to_frame()
@@ -37,6 +37,49 @@ ax.hist(df_heights, bins=20)
 
 st.pyplot(fig)
 
-fig = px.scatter(df['Weight'], df['Height'])
-# fig = px.scatter(df['Weight'].mean(), df['Height'].mean())
-st.plotly_chart(fig, use_column_width=True)
+
+# Males weight
+st.title('Histogram of males weight')
+for_hist  = df.loc[(df['Gender'] == 'Male')]
+weightss = for_hist.iloc[:, 2]
+df_weights = weightss.to_frame()
+fig, ax = plt.subplots()
+ax.hist(df_weights, bins=20)
+
+st.pyplot(fig)
+
+# Female height
+st.title('Histogram of female height')
+for_hist  = df.loc[(df['Gender'] == 'Female')]
+heightss = for_hist.iloc[:, 1]
+df_heights = heightss.to_frame()
+fig, ax = plt.subplots()
+ax.hist(df_heights, bins=20)
+
+st.pyplot(fig)
+
+# Female weight
+st.title('Histogram of females weight')
+for_hist  = df.loc[(df['Gender'] == 'Female')]
+weightss = for_hist.iloc[:, 2]
+df_weights = weightss.to_frame()
+fig, ax = plt.subplots()
+ax.hist(df_weights, bins=20)
+st.pyplot(fig)
+
+# Plot mean of Weight and heigh
+mean_vector = [df.Weight.mean(), df.Height.mean()]
+fig1 = px.scatter(df['Weight'], df['Height'])
+# mean_height = df['Weight'].mean()
+# mean_weight = df['Height'].mean()
+fig = px.scatter(mean_vector)
+st.plotly_chart(fig1, use_column_width=True)
+
+## this needs rework
+
+
+### Mean per BMI
+df2 = df.groupby('Index').mean()
+fig = px.scatter(df2,  x='Weight', y='Height', title='Mean per BMI', color=('Extremely weak mean', 'Weak', 'Normal', 'Overweight', 'Obesity', 'Extreme Obesity'))
+fig.update_traces(marker=dict(size=16))
+st.plotly_chart(fig, use_column_width = True)
