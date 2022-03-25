@@ -10,14 +10,10 @@ df = pd.read_csv("https://raw.githubusercontent.com/chriswmann/datasets/master/5
 st.title("BMI Visualization")
 st.dataframe(df)
 data_select = st.sidebar.selectbox("Select your Scatter Plot", ("BMI", "BMI For males", "BMI For females"))
-hist_select = st.sidebar.selectbox("Choose which histogram you want", ("Male height", "Male weight", "Female height", "Female weight", "Mean per BMI"))
-menu = ["Original Vector", "Transformed Vector"]
-rotation = st.sidebar.radio("Matrix", menu)
-k = st.sidebar.slider("Choose your Rotation", 30, 100, 1)
-menu = ("Original Vector")
-rotation = st.sidebar.checkbox(menu)
-rotation1 = st.sidebar.checkbox("Transformed Vector")
-deg = st.sidebar.slider("Choose your Rotation", 30, 100, 5)
+hist_select = st.sidebar.selectbox("Choose which histogram you want", ("Male height", "Male weight", "Female height", "Female weight"))
+
+
+rotation = st.sidebar.checkbox("Original Vector")
 
 
 # if rotation == "Original Vector":
@@ -29,15 +25,16 @@ deg = st.sidebar.slider("Choose your Rotation", 30, 100, 5)
 #     fig = px.scatter(xy, x='X axis', y='Y axis', title="Original Vector")
 #     st.plotly_chart(fig, use_column_width = True)
 
-    
+rotation1 = st.sidebar.checkbox("Transformed Vector")
+deg = st.sidebar.slider("Choose your Rotation", 30, 100, 1)    
 
-# def rot_mat(deg):
-#     if rotation1 == "Transformed Vector":
-#         st.title("Transformed Vector")
-#         theta = deg/180*np.pi
-#         c = np.cos(theta)
-#         s = np.sin(theta)
-#         return np.array([[c, -s], [s, c]])
+def rot_mat(deg):
+    if rotation1 == "Transformed Vector":
+        st.title("Transformed Vector")
+        theta = deg/180*np.pi
+        cos = np.cos(theta)
+        sin = np.sin(theta)
+    return np.array([[cos, -sin], [sin, cos]])
 
 # r = rot_mat(deg)
 # rxy = r@xy
@@ -45,9 +42,6 @@ deg = st.sidebar.slider("Choose your Rotation", 30, 100, 5)
 # st.plotly_chart(fig, use_column_width = True)
 
     
-
-
-
 
 def load_data(data_select):
 # General scatter plot
@@ -131,12 +125,8 @@ def load_hist(hist_select):
         ax.hist(df_weights, bins=20)
         st.pyplot(fig)
 
-    elif hist_select == "Mean per BMI":
-        ### Mean per BMI
-        df2 = df.groupby('Index').mean()
-        fig = px.scatter(df2,  x='Weight', y='Height', title='Mean per BMI', color=('Extremely weak mean', 'Weak', 'Normal', 'Overweight', 'Obesity', 'Extreme Obesity'))
-        fig.update_traces(marker=dict(size=16))
-        st.plotly_chart(fig, use_column_width = True)
+    else:
+        print("no")
 
 load_hist(hist_select)
 
